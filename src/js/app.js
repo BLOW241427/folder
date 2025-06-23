@@ -99,3 +99,32 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!userActionsDiv) console.error('header .user-actions no encontrado');
     }
 });
+
+// Lógica para Desplazamiento Suave (Smooth Scrolling)
+document.addEventListener('DOMContentLoaded', () => {
+    const anchorLinks = document.querySelectorAll('header nav ul li a[href^="#"]');
+
+    if (anchorLinks.length > 0) {
+        anchorLinks.forEach(link => {
+            link.addEventListener('click', function(event) {
+                event.preventDefault();
+                const targetId = this.getAttribute('href'); // e.g., "#top-section"
+
+                // Asegurarse de que no es solo "#"
+                if (targetId.length > 1) {
+                    const targetElement = document.querySelector(targetId); // Usa querySelector para IDs
+
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    } else {
+                        console.warn('Elemento de destino para smooth scroll no encontrado:', targetId);
+                    }
+                }
+            });
+        });
+    } else {
+        console.warn('No se encontraron enlaces de ancla para smooth scrolling en el header.');
+    }
+});
