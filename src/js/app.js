@@ -128,3 +128,40 @@ document.addEventListener('DOMContentLoaded', () => {
         console.warn('No se encontraron enlaces de ancla para smooth scrolling en el header.');
     }
 });
+
+// Lógica para Animaciones al Hacer Scroll (Intersection Observer)
+document.addEventListener('DOMContentLoaded', () => {
+    const productCards = document.querySelectorAll('.product-card');
+
+    if (productCards.length > 0) {
+        // Inicialmente ocultar todas las tarjetas que se animarán
+        productCards.forEach(card => {
+            card.classList.add('hidden-scroll');
+        });
+
+        const observerOptions = {
+            root: null, // Relativo al viewport
+            rootMargin: '0px',
+            threshold: 0.1 // Trigger cuando al menos 10% de la tarjeta es visible
+        };
+
+        const observerCallback = (entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.remove('hidden-scroll');
+                    entry.target.classList.add('visible-scroll');
+                    observer.unobserve(entry.target); // Dejar de observar una vez que es visible
+                }
+            });
+        };
+
+        const scrollObserver = new IntersectionObserver(observerCallback, observerOptions);
+
+        productCards.forEach(card => {
+            scrollObserver.observe(card);
+        });
+
+    } else {
+        console.warn('No se encontraron tarjetas de producto para animar con Intersection Observer.');
+    }
+});

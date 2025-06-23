@@ -1,397 +1,376 @@
-/* Estilos generales */
-body {
-    font-family: sans-serif;
+/* --- Reset Básico y Variables --- */
+:root {
+    --font-primary: 'Roboto', sans-serif;
+    --font-secondary: 'Montserrat', sans-serif;
+    --color-text: #333333;
+    --color-background: #FFFFFF; /* Fondo blanco puro */
+    --color-background-alt: #F8F9FA; /* Gris muy claro para secciones */
+    --color-accent: #66DDAA; /* Verde agua marina */
+    --color-accent-darker: #55C89A;
+    --color-border-light: #E0E0E0;
+    --shadow-light: 0 4px 15px rgba(0, 0, 0, 0.05);
+    --shadow-medium: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Estilos del header */
-header {
-    background-color: #333;
-    color: white;
-    padding: 1em 0;
-    border-bottom: 3px solid #555;
-}
-
-header .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-header .logo {
-    font-size: 1.5em;
-    font-weight: bold;
-}
-
-header nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-}
-
-header nav ul li {
-    margin-left: 20px;
-}
-
-header nav ul li a {
-    color: white;
-    text-decoration: none;
-    font-size: 1em;
-}
-
-header nav ul li a:hover {
-    text-decoration: underline;
-}
-
-header .user-actions button {
-    background-color: #5cb85c;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-header .user-actions button:hover {
-    background-color: #4cae4c;
-}
-
-/* Estilos del main */
-main .container { /* Aplicado al div dentro de main, no a main directamente */
-    max-width: 1200px;
-    margin: 20px auto;
-    padding: 20px; /* Añadido padding para que el contenido no pegue a los bordes */
-    min-height: 60vh; /* Para asegurar que el footer no suba mucho */
-    background-color: #f9f9f9; /* Un fondo ligero para la zona de contenido */
-    border-radius: 5px;
-}
-
-/* Estilos del footer */
-footer {
-    background-color: #333;
-    color: white;
-    text-align: center;
-    padding: 1em 0;
-    margin-top: auto; /* Empuja el footer hacia abajo */
-    border-top: 3px solid #555;
-}
-
-footer .container { /* Aplicado al div dentro de footer */
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-/* Ajustes adicionales al body para asegurar que el footer quede abajo si el contenido es poco */
 body {
+    font-family: var(--font-primary);
+    color: var(--color-text);
+    background-color: var(--color-background);
+    line-height: 1.7;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
 
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-secondary);
+    font-weight: 700;
+    margin-bottom: 0.75em;
+}
+
+p {
+    margin-bottom: 1em;
+}
+
+a {
+    color: var(--color-accent);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover, a:focus {
+    color: var(--color-accent-darker);
+    text-decoration: underline;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 0; /* Espacio vertical general para contenedores */
+}
+
+/* --- Header --- */
+header#top-section {
+    background-color: var(--color-background);
+    padding: 1em 0;
+    border-bottom: 1px solid var(--color-border-light);
+    position: sticky; /* Opcional: para header fijo */
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow-light);
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between; /* Nav a la izq, header-main a la der */
+    align-items: center;
+}
+
+header nav {
+    /* El nav ahora está primero, se alineará a la izquierda por defecto */
+}
+
+header nav ul {
+    list-style: none;
+    display: flex;
+}
+
+header nav ul li a {
+    font-family: var(--font-secondary);
+    color: var(--color-text);
+    padding: 10px 15px;
+    display: block;
+    font-weight: 700;
+    border-radius: 5px;
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+header nav ul li a:hover,
+header nav ul li a.active { /* Suponiendo una clase active para la sección actual */
+    color: var(--color-accent);
+    background-color: rgba(102, 221, 170, 0.1); /* Fondo sutil para hover/active */
+}
+
+header .header-main {
+    display: flex;
+    align-items: center;
+}
+
+header .logo {
+    font-family: var(--font-secondary);
+    font-size: 1.8em;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-right: 30px; /* Espacio entre logo y user-actions */
+}
+
+header .user-actions #login-button {
+    font-family: var(--font-secondary);
+    background-color: var(--color-accent);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1em;
+    font-weight: 700;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+header .user-actions #login-button:hover {
+    background-color: var(--color-accent-darker);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* --- Main Content & Sections --- */
 main {
-    flex-grow: 1; /* Hace que main ocupe el espacio disponible */
+    flex-grow: 1;
+    padding: 40px 0; /* Más espacio vertical para el contenido principal */
 }
 
-/* Animación para el título principal */
-main .container h1 {
-    animation: fadeInSlideUp 0.8s ease-out forwards;
-    opacity: 0; /* Inicia invisible para el fade-in */
-}
-
-@keyframes fadeInSlideUp {
-    0% {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Estilos para la sección de productos y tarjetas */
-#product-list-section {
-    padding: 20px 0;
+main .container h1 { /* Título de bienvenida */
+    font-size: 2.8em;
+    color: var(--color-text);
     text-align: center;
+    margin-bottom: 1.5em;
+    animation: fadeInSlideUp 0.8s ease-out forwards; /* Mantener animación */
+    opacity: 0;
+}
+
+@keyframes fadeInSlideUp { /* Mantener Keyframe */
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+#product-list-section {
+    padding: 40px 0;
+    background-color: var(--color-background-alt); /* Fondo alterno para destacar */
 }
 
 #product-list-section h2 {
-    margin-bottom: 30px;
-    font-size: 2em;
-    color: #333;
+    text-align: center;
+    font-size: 2.2em;
+    margin-bottom: 1.5em;
 }
 
 .product-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
-    text-align: left;
+    gap: 30px; /* Más espacio entre tarjetas */
 }
 
 .product-card {
-    background-color: #fff;
-    border: 1px solid #ddd;
+    background-color: var(--color-background);
+    border: 1px solid var(--color-border-light);
     border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    padding: 25px; /* Más padding interno */
+    box-shadow: var(--shadow-light);
+    display: flex;
+    flex-direction: column;
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out, box-shadow 0.3s ease;
 }
 
 .product-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-medium);
 }
 
 .product-card img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 5px;
-    margin-bottom: 15px;
-    aspect-ratio: 1 / 1; /* Para que las imágenes mantengan proporción cuadrada */
-    object-fit: cover; /* Para que la imagen cubra el espacio sin distorsionarse */
+    border-radius: 6px;
+    margin-bottom: 20px;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
 }
 
-.product-card h3 {
-    font-size: 1.4em;
-    margin-bottom: 10px;
-    color: #333;
+.product-card h3 { /* Nombre del producto */
+    font-size: 1.3em;
+    font-weight: 700; /* Montserrat ya es bold por defecto si se usa así */
+    margin-bottom: 0.5em;
 }
 
 .product-card .price {
+    font-family: var(--font-secondary);
     font-size: 1.2em;
-    font-weight: bold;
-    color: #5cb85c;
-    margin-bottom: 10px;
+    font-weight: 700;
+    color: var(--color-accent);
+    margin-bottom: 0.8em;
 }
 
-.product-card p {
-    font-size: 0.9em;
-    color: #666;
-    margin-bottom: 15px;
-    flex-grow: 1; /* Para que la descripción ocupe espacio si las tarjetas son flex */
+.product-card p { /* Descripción corta */
+    font-size: 0.95em;
+    flex-grow: 1;
+    margin-bottom: 1.5em;
+    line-height: 1.6;
 }
 
 .product-card button {
-    background-color: #007bff;
+    font-family: var(--font-secondary);
+    background-color: var(--color-accent);
     color: white;
     border: none;
-    padding: 10px 15px;
-    cursor: pointer;
-    border-radius: 5px;
-    width: 100%;
+    padding: 12px 15px;
     font-size: 1em;
-    transition: background-color 0.3s ease;
+    font-weight: 700;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .product-card button:hover {
-    background-color: #0056b3;
+    background-color: var(--color-accent-darker);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
-/* Estilos para el Modal de Login */
+/* --- Footer --- */
+footer#footer-section {
+    background-color: var(--color-text); /* Footer oscuro para contraste */
+    color: var(--color-background-alt);
+    text-align: center;
+    padding: 2.5em 0;
+    margin-top: auto;
+}
+
+footer .container p {
+    margin-bottom: 0.5em;
+    font-size: 0.9em;
+}
+
+footer .container a { /* Enlaces en el footer */
+    color: var(--color-accent);
+}
+footer .container a:hover {
+    color: #FFFFFF; /* Blanco para hover en footer */
+}
+
+
+/* --- Modal de Login --- */
 .modal {
-    position: fixed; /* Posición fija para cubrir toda la pantalla */
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
-    display: flex; /* Usar flex para centrar el contenido */
-    justify-content: center;
-    align-items: center;
-    z-index: 1000; /* Asegurar que esté por encima de otros elementos */
+    /* ... (mantener estilos de modal, ajustar colores si es necesario) ... */
+    background-color: rgba(0, 0, 0, 0.6); /* Fondo oscurecido un poco más */
 }
 
 .modal-content {
-    background-color: #fff;
-    padding: 30px;
+    background-color: var(--color-background);
+    padding: 35px;
     border-radius: 8px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    box-shadow: var(--shadow-medium);
     width: 100%;
-    max-width: 400px; /* Ancho máximo del modal */
-    position: relative;
-    animation: fadeInModal 0.3s ease-out;
-}
-
-@keyframes fadeInModal {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.close-button {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 1.8em;
-    font-weight: bold;
-    color: #aaa;
-    cursor: pointer;
-}
-
-.close-button:hover,
-.close-button:focus {
-    color: #333;
-    text-decoration: none;
+    max-width: 420px;
 }
 
 .modal-content h2 {
+    font-family: var(--font-secondary);
     text-align: center;
-    margin-bottom: 20px;
-    color: #333;
-}
-
-.form-group {
-    margin-bottom: 15px;
+    margin-bottom: 1.5em;
+    font-size: 1.8em;
 }
 
 .form-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: #555;
+    font-family: var(--font-secondary);
+    font-weight: 700;
+    margin-bottom: 8px;
 }
 
 .form-group input[type="email"],
 .form-group input[type="password"] {
-    width: calc(100% - 20px); /* Ajustar padding y borde */
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    padding: 12px;
+    border: 1px solid var(--color-border-light);
+    border-radius: 5px;
     font-size: 1em;
+    font-family: var(--font-primary);
 }
 
-.button-primary {
-    background-color: #5cb85c;
+.form-group input[type="email"]:focus,
+.form-group input[type="password"]:focus {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 2px rgba(102, 221, 170, 0.2);
+    outline: none;
+}
+
+.modal .button-primary { /* Botón de login en modal */
+    background-color: var(--color-accent);
+    /* ... (hereda otros estilos de .product-card button o se definen aquí) ... */
+    font-family: var(--font-secondary);
     color: white;
     border: none;
     padding: 12px 20px;
     font-size: 1.1em;
+    font-weight: 700;
     border-radius: 5px;
     cursor: pointer;
     width: 100%;
     transition: background-color 0.3s ease;
 }
 
-.button-primary:hover {
-    background-color: #4cae4c;
+.modal .button-primary:hover {
+    background-color: var(--color-accent-darker);
 }
 
-.login-message {
-    margin-top: 15px;
-    padding: 10px;
-    border-radius: 4px;
-    text-align: center;
-}
+.login-message { /* ... (mantener, ajustar colores si es necesario) ... */ }
+.login-message.success { /* ... */ }
+.login-message.error { /* ... */ }
 
-.login-message.success {
-    background-color: #d4edda;
-    color: #155724;
-    border: 1px solid #c3e6cb;
-}
-
-.login-message.error {
-    background-color: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
-}
-
-/* Mejoras Generales y Refinamiento */
-body {
-    line-height: 1.6; /* Mejorar legibilidad */
-    color: #333; /* Color de texto principal más oscuro */
-}
-
-a {
-    transition: color 0.3s ease; /* Transición suave para enlaces */
-}
-
-/* Ajustes al header para responsividad */
-header .container {
-    flex-direction: column; /* Apilar elementos en pantallas pequeñas */
-    text-align: center;
-}
-
-header nav ul {
-    flex-direction: column; /* Apilar items de navegación */
-    align-items: center;
-    margin-top: 10px;
-}
-
-header nav ul li {
-    margin-left: 0;
-    margin-bottom: 10px; /* Espacio entre items de menú apilados */
-}
-
-header .user-actions {
-    margin-top: 15px;
-}
-
-/* Media Queries para Responsividad */
-
-/* Para tabletas y móviles grandes (a partir de 768px) */
-@media (min-width: 768px) {
+/* --- Media Queries para Responsividad (Ajustes Minimalistas) --- */
+@media (max-width: 768px) {
     header .container {
-        flex-direction: row; /* Volver a layout horizontal */
-        text-align: left;
+        flex-direction: column;
+        align-items: flex-start; /* Alinear todo a la izquierda en móvil */
     }
-
+    header nav {
+        width: 100%; /* Nav ocupa todo el ancho */
+        margin-bottom: 15px;
+    }
     header nav ul {
-        flex-direction: row;
-        margin-top: 0;
+        flex-direction: column;
+        align-items: flex-start; /* Items del menú a la izquierda */
     }
-
-    header nav ul li {
-        margin-left: 20px;
-        margin-bottom: 0;
+    header nav ul li a {
+        padding: 8px 0; /* Ajustar padding para vista móvil */
     }
-
-    header .user-actions {
-        margin-top: 0;
+    header .header-main {
+        flex-direction: column;
+        align-items: flex-start; /* Logo y user-actions a la izquierda */
+        width: 100%;
     }
-
-    .product-grid {
-        /* Ajustar número de columnas si es necesario, por ejemplo, a 2 */
-        /* grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); ya es bastante flexible */
-        /* Podríamos ser más explícitos si quisiéramos 2 columnas exactas en tabletas */
-        grid-template-columns: repeat(2, 1fr);
+    header .logo {
+        margin-bottom: 15px;
+        font-size: 1.6em;
     }
-}
-
-/* Para ordenadores de escritorio (a partir de 1024px) */
-@media (min-width: 1024px) {
-    .product-grid {
-        /* Volver o asegurar 3 o más columnas */
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Este ya funciona bien */
-        /* O ser más específico: grid-template-columns: repeat(3, 1fr); */
-    }
-}
-
-/* Ajustes para móviles muy pequeños (menos de 480px) */
-@media (max-width: 480px) {
     main .container h1 {
-        font-size: 1.8em; /* Reducir tamaño de fuente del título principal */
+        font-size: 2.2em;
     }
-
     #product-list-section h2 {
-        font-size: 1.5em; /* Reducir tamaño de fuente de "Nuestros Productos" */
+        font-size: 1.8em;
     }
+    .product-grid {
+        grid-template-columns: 1fr; /* Una columna en móviles */
+        gap: 20px;
+    }
+}
 
-    .product-card h3 {
-        font-size: 1.2em;
-    }
+/* Estilos para animación de tarjetas de producto al hacer scroll */
+.product-card.hidden-scroll {
+    opacity: 0;
+    transform: translateY(40px);
+}
 
-    .product-card .price {
-        font-size: 1em;
-    }
-
-    .modal-content {
-        padding: 20px;
-        margin: 0 10px; /* Asegurar que no toque los bordes en pantallas muy pequeñas */
-    }
+.product-card.visible-scroll {
+    opacity: 1;
+    transform: translateY(0);
 }
