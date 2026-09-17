@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La media: qué es y cómo se calcula</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper: #faf9f4;
+    --paper-line: #d9d4c4;
+    --ink: #21261f;
+    --ink-soft: #55594e;
+    --blue: #2b4c7e;
+    --blue-soft: #e7edf6;
+    --red: #b23a2f;
+    --red-soft: #f7e6e3;
+    --card-bg: #ffffff;
+    --card-border: #e2ded0;
+    --shadow: rgba(33,38,31,0.08);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper: #14170f;
+      --paper-line: #262c1e;
+      --ink: #ece9dd;
+      --ink-soft: #b5b3a2;
+      --blue: #7fa3d9;
+      --blue-soft: #1c2a3d;
+      --red: #e19188;
+      --red-soft: #3a2220;
+      --card-bg: #1b1f16;
+      --card-border: #30362a;
+      --shadow: rgba(0,0,0,0.4);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper: #14170f;
+    --paper-line: #262c1e;
+    --ink: #ece9dd;
+    --ink-soft: #b5b3a2;
+    --blue: #7fa3d9;
+    --blue-soft: #1c2a3d;
+    --red: #e19188;
+    --red-soft: #3a2220;
+    --card-bg: #1b1f16;
+    --card-border: #30362a;
+    --shadow: rgba(0,0,0,0.4);
+  }
+
+  *{ box-sizing: border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    background:
+      linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 32px,
+      var(--paper);
+    color: var(--ink);
+    font-family: 'Inter', system-ui, sans-serif;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap{
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 64px 24px 96px;
+  }
+
+  header.hero{
+    position: relative;
+    padding: 8px 0 40px;
+    border-bottom: 3px solid var(--red);
+    margin-bottom: 48px;
+  }
+  header.hero::before{
+    content: "";
+    position: absolute;
+    left: -24px;
+    top: 0;
+    bottom: -3px;
+    width: 2px;
+    background: var(--red);
+    opacity: 0.5;
+  }
+  .kicker{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--red);
+    font-weight: 600;
+  }
+  h1{
+    font-family: 'Lora', Georgia, serif;
+    font-weight: 700;
+    font-size: clamp(2.1rem, 5vw, 3.1rem);
+    line-height: 1.12;
+    margin: 10px 0 18px;
+    color: var(--ink);
+  }
+  .lede{
+    font-size: 1.15rem;
+    color: var(--ink-soft);
+    max-width: 62ch;
+  }
+
+  .formula-hero{
+    margin-top: 32px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .formula-big{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+    font-weight: 700;
+    color: var(--blue);
+    background: var(--blue-soft);
+    padding: 14px 22px;
+    border-radius: 4px;
+    border: 1px solid var(--card-border);
+    white-space: nowrap;
+  }
+  .formula-caption{
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+    max-width: 32ch;
+  }
+
+  section{ margin-bottom: 56px; }
+  h2{
+    font-family: 'Lora', Georgia, serif;
+    font-weight: 600;
+    font-size: 1.55rem;
+    margin: 0 0 18px;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+  h2 .num{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.95rem;
+    color: var(--red);
+    font-weight: 600;
+  }
+  p{ margin: 0 0 16px; max-width: 68ch; }
+  strong{ color: var(--ink); font-weight: 600; }
+
+  .term{
+    color: var(--blue);
+    font-weight: 600;
+    border-bottom: 1px dashed var(--blue);
+  }
+
+  .steps{
+    counter-reset: step;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .steps li{
+    counter-increment: step;
+    position: relative;
+    padding-left: 46px;
+    max-width: 60ch;
+  }
+  .steps li::before{
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: -2px;
+    width: 30px;
+    height: 30px;
+    border: 1.5px solid var(--red);
+    color: var(--red);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 0.9rem;
+    background: var(--card-bg);
+  }
+  .steps code, .inline-math{
+    font-family: 'JetBrains Mono', monospace;
+    background: var(--blue-soft);
+    color: var(--blue);
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-size: 0.92em;
+  }
+
+  .example-card{
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-left: 4px solid var(--blue);
+    border-radius: 6px;
+    padding: 22px 24px;
+    box-shadow: 0 2px 10px var(--shadow);
+    margin-top: 22px;
+  }
+  .example-card h3{
+    font-family: 'Lora', Georgia, serif;
+    font-size: 1.05rem;
+    margin: 0 0 12px;
+    font-weight: 600;
+  }
+  .data-row{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 12px 0;
+  }
+  .chip{
+    font-family: 'JetBrains Mono', monospace;
+    background: var(--paper);
+    border: 1px solid var(--card-border);
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.95rem;
+  }
+  .result-line{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.05rem;
+    color: var(--red);
+    font-weight: 700;
+    margin-top: 10px;
+  }
+
+  .types-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 16px;
+    margin-top: 20px;
+  }
+  .type-card{
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 6px;
+    padding: 18px 20px;
+  }
+  .type-card h4{
+    font-family: 'Lora', Georgia, serif;
+    font-size: 1.02rem;
+    margin: 0 0 8px;
+  }
+  .type-card .f{
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--blue);
+    font-size: 0.95rem;
+    display: block;
+    margin-bottom: 8px;
+  }
+  .type-card p{ font-size: 0.92rem; margin: 0; color: var(--ink-soft); }
+
+  /* Interactive calculator */
+  .calc{
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    padding: 28px;
+    box-shadow: 0 4px 18px var(--shadow);
+  }
+  .calc label{
+    display: block;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  .calc input[type="text"]{
+    width: 100%;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1rem;
+    padding: 12px 14px;
+    border-radius: 5px;
+    border: 1.5px solid var(--card-border);
+    background: var(--paper);
+    color: var(--ink);
+  }
+  .calc input[type="text"]:focus{
+    outline: none;
+    border-color: var(--blue);
+  }
+  .calc-btn{
+    margin-top: 14px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    background: var(--blue);
+    color: #fff;
+    border: none;
+    padding: 11px 22px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .calc-btn:focus-visible, button:focus-visible, a:focus-visible{
+    outline: 2px solid var(--red);
+    outline-offset: 2px;
+  }
+  .calc-btn:hover{ opacity: 0.9; }
+  .calc-out{
+    margin-top: 22px;
+    padding-top: 20px;
+    border-top: 1px dashed var(--card-border);
+    display: none;
+  }
+  .calc-out.show{ display: block; }
+  .calc-out .breakdown{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+    word-break: break-word;
+    margin-bottom: 10px;
+  }
+  .calc-out .final{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--red);
+  }
+  .calc-error{
+    color: var(--red);
+    font-size: 0.9rem;
+    margin-top: 10px;
+  }
+
+  .note-box{
+    background: var(--red-soft);
+    border-left: 4px solid var(--red);
+    border-radius: 4px;
+    padding: 16px 20px;
+    font-size: 0.95rem;
+  }
+  .note-box strong{ color: var(--red); }
+
+  footer{
+    margin-top: 60px;
+    padding-top: 24px;
+    border-top: 3px solid var(--red);
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  @media (max-width: 600px){
+    header.hero::before{ display:none; }
+    .wrap{ padding: 40px 18px 72px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="kicker">ESTADÍSTICA · CONCEPTOS BÁSICOS</div>
+    <h1>La media: qué es y cómo se calcula</h1>
+    <p class="lede">La media es el número que resume un conjunto de datos en un solo valor: el punto de equilibrio de todos ellos. Aquí ves la fórmula, el procedimiento paso a paso y una calculadora para probarlo con tus propios números.</p>
+    <div class="formula-hero">
+      <div class="formula-big">x̄ = (Σxᵢ) / n</div>
+      <div class="formula-caption">Suma todos los valores y divide entre cuántos son.</div>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="num">01</span> ¿Qué es la media?</h2>
+    <p>La <span class="term">media</span> (también llamada <em>media aritmética</em> o simplemente "promedio") es un valor que representa el centro de un conjunto de números. Se obtiene sumando todos los datos y repartiendo esa suma en partes iguales entre la cantidad de datos que hay.</p>
+    <p>Imagina que reúnes las propinas de cinco días de trabajo y las repartes en partes iguales entre esos cinco días: el resultado es la media. No te dice cuánto ganaste cada día en concreto, sino cuánto habría tocado por día si todo se hubiera repartido de forma pareja.</p>
+  </section>
+
+  <section>
+    <h2><span class="num">02</span> La fórmula, explicada término por término</h2>
+    <p>La expresión <span class="inline-math">x̄ = (Σxᵢ) / n</span> se lee así:</p>
+    <ul class="steps" style="list-style:none; padding-left:0;">
+      <li style="padding-left:0;"><code>x̄</code> — es el símbolo de la media (se pronuncia "x barra").</li>
+      <li style="padding-left:0;"><code>Σ</code> — la letra griega sigma indica una <strong>suma</strong>: suma todos los valores que tienes.</li>
+      <li style="padding-left:0;"><code>xᵢ</code> — representa cada uno de los datos individuales (x₁, x₂, x₃, ...).</li>
+      <li style="padding-left:0;"><code>n</code> — es el número total de datos que estás promediando.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2><span class="num">03</span> Cómo se calcula, paso a paso</h2>
+    <ol class="steps">
+      <li>Reúne todos los valores que quieres promediar. Por ejemplo: <code>4, 8, 6, 5, 3</code>.</li>
+      <li>Súmalos todos: <code>4 + 8 + 6 + 5 + 3 = 26</code>.</li>
+      <li>Cuenta cuántos valores sumaste. En este caso, <code>n = 5</code>.</li>
+      <li>Divide la suma entre esa cantidad: <code>26 / 5 = 5.2</code>.</li>
+      <li>Ese resultado, <code>5.2</code>, es la media del conjunto.</li>
+    </ol>
+
+    <div class="example-card">
+      <h3>Ejemplo aplicado: calificaciones de un estudiante</h3>
+      <p style="margin-bottom:8px;">Un estudiante obtuvo estas notas en el semestre:</p>
+      <div class="data-row">
+        <span class="chip">14</span>
+        <span class="chip">16</span>
+        <span class="chip">12</span>
+        <span class="chip">18</span>
+        <span class="chip">15</span>
+      </div>
+      <p style="margin-bottom:4px;">Suma: <code>14 + 16 + 12 + 18 + 15 = 75</code></p>
+      <p style="margin-bottom:0;">Cantidad de notas: <code>n = 5</code></p>
+      <div class="result-line">Media = 75 / 5 = 15</div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">04</span> Pruébalo tú: calculadora de la media</h2>
+    <p>Escribe una lista de números separados por comas y calcula la media al instante, con el detalle del procedimiento.</p>
+    <div class="calc">
+      <label for="numsInput">Tus números (separados por comas)</label>
+      <input type="text" id="numsInput" placeholder="Ej: 4, 8, 6, 5, 3" autocomplete="off">
+      <button class="calc-btn" id="calcBtn">Calcular la media</button>
+      <div id="calcOut" class="calc-out">
+        <div class="breakdown" id="breakdown"></div>
+        <div class="final" id="finalResult"></div>
+      </div>
+      <div class="calc-error" id="calcError"></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">05</span> No toda "media" se calcula igual</h2>
+    <p>La media aritmética es la más común, pero según el tipo de datos existen otras variantes:</p>
+    <div class="types-grid">
+      <div class="type-card">
+        <h4>Media aritmética</h4>
+        <span class="f">x̄ = Σxᵢ / n</span>
+        <p>La estándar: suma y divide. Sirve cuando todos los datos pesan igual.</p>
+      </div>
+      <div class="type-card">
+        <h4>Media ponderada</h4>
+        <span class="f">x̄ = Σ(xᵢ·wᵢ) / Σwᵢ</span>
+        <p>Cada dato tiene un peso distinto. Se usa, por ejemplo, cuando un examen final vale más que un parcial.</p>
+      </div>
+      <div class="type-card">
+        <h4>Media geométrica</h4>
+        <span class="f">x̄ = ⁿ√(x₁·x₂·...·xₙ)</span>
+        <p>Multiplica los datos en vez de sumarlos. Útil para tasas de crecimiento o porcentajes.</p>
+      </div>
+      <div class="type-card">
+        <h4>Media armónica</h4>
+        <span class="f">x̄ = n / Σ(1/xᵢ)</span>
+        <p>Se usa con velocidades o tasas, cuando promediar directamente daría un resultado engañoso.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">06</span> Un cuidado importante</h2>
+    <div class="note-box">
+      <strong>La media es sensible a valores extremos.</strong> Si un dato es mucho más grande o pequeño que el resto, "arrastra" la media hacia él. Por ejemplo, en el conjunto <code>1, 2, 2, 3, 100</code>, la media es 21.6 — un número que no representa bien a la mayoría de los datos. En esos casos conviene mirar también la <em>mediana</em> (el valor central de la lista ordenada).
+    </div>
+  </section>
+
+  <footer>
+    <span>Guía de estadística básica</span>
+    <span>Media aritmética, ponderada, geométrica y armónica</span>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  const btn = document.getElementById('calcBtn');
+  const input = document.getElementById('numsInput');
+  const out = document.getElementById('calcOut');
+  const breakdown = document.getElementById('breakdown');
+  const finalResult = document.getElementById('finalResult');
+  const errorEl = document.getElementById('calcError');
+
+  function calcular(){
+    errorEl.textContent = '';
+    out.classList.remove('show');
+    const raw = input.value.trim();
+    if(!raw){
+      errorEl.textContent = 'Escribe al menos un número.';
+      return;
+    }
+    const parts = raw.split(',').map(s => s.trim()).filter(s => s.length > 0);
+    const nums = [];
+    for(const p of parts){
+      const val = Number(p);
+      if(Number.isNaN(val)){
+        errorEl.textContent = '"' + p + '" no es un número válido. Usa solo números separados por comas.';
+        return;
+      }
+      nums.push(val);
+    }
+    if(nums.length === 0){
+      errorEl.textContent = 'No se encontraron números válidos.';
+      return;
+    }
+    const sum = nums.reduce((a,b) => a+b, 0);
+    const mean = sum / nums.length;
+    const roundedSum = Math.round(sum * 1000) / 1000;
+    const roundedMean = Math.round(mean * 1000) / 1000;
+
+    breakdown.textContent = 'Suma: ' + nums.join(' + ') + ' = ' + roundedSum + '  |  n = ' + nums.length;
+    finalResult.textContent = 'Media = ' + roundedSum + ' / ' + nums.length + ' = ' + roundedMean;
+    out.classList.add('show');
+  }
+
+  btn.addEventListener('click', calcular);
+  input.addEventListener('keydown', function(e){
+    if(e.key === 'Enter'){ calcular(); }
+  });
+})();
+</script>
+
+</body>
+</html>
